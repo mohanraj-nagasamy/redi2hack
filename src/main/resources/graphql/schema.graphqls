@@ -1,0 +1,37 @@
+type Customer {
+    id: ID!
+    name: String!
+    industry: String
+}
+
+type Person {
+    name: String!
+}
+
+enum EventType {
+    CUSTOMER
+    PERSON
+}
+
+type Event {
+    message: String!
+    eventType: EventType!
+}
+
+input CustomerInput {
+    name: String!
+    industry: String
+}
+
+type Query {
+    customers: [Customer!]!
+    searchCustomer(q: String!): [Customer!]!
+}
+
+type Mutation {
+    createCustomer(input: CustomerInput!): Customer
+}
+
+type Subscription {
+    subscribeEvents(fromStart: Boolean = true): Event
+}
