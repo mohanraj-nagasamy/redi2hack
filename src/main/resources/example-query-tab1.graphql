@@ -1,0 +1,20 @@
+# Step 0: Copy & Paste
+# Copy & Paste the whole content (Command/Ctrl-A, Command/Ctrl-X and Command/Ctrl-V) in the editor
+# there is a bug that executes the same query.
+
+# Step 1: Run subscribeEvents query
+# There are some fake customers created to get started.
+# You will see few customer events.
+# But you can update fromStart to false if you want to see the latest events
+# Redis commands used: XREAD
+subscription subscribeEvents { # Place cursor here: Run (Command/Ctrl-Enter)
+    # Change fromStart to false ex:(fromStart: false) if you want to see the latest events
+    subscribeEvents(fromStart: true) {
+        message
+        eventType
+    }
+}
+
+# NOTE: you need you scroll to see the latest events
+
+# Step 2: Goto GraphQL-Streaming-Demo:Tab-2

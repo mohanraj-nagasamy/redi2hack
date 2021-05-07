@@ -9,8 +9,9 @@ type Person {
 }
 
 enum EventType {
-    CUSTOMER
-    PERSON
+    CustomerCreated
+    CustomerUpdated
+    CustomerDeleted
 }
 
 type Event {
@@ -18,7 +19,12 @@ type Event {
     eventType: EventType!
 }
 
-input CustomerInput {
+input CustomerCreateInput {
+    name: String!
+    industry: String
+}
+
+input CustomerUpdateInput {
     name: String!
     industry: String
 }
@@ -29,7 +35,10 @@ type Query {
 }
 
 type Mutation {
-    createCustomer(input: CustomerInput!): Customer
+    createCustomer(input: CustomerCreateInput!): Customer!
+    updateCustomer(customerId: Int, input: CustomerUpdateInput): Customer!
+    deleteCustomer(customerId: Int): Customer!
+    resetRedis: String!
 }
 
 type Subscription {

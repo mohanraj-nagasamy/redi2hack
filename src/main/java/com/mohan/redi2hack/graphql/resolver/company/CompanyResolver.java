@@ -1,6 +1,7 @@
 package com.mohan.redi2hack.graphql.resolver.company;
 
-import com.mohan.redi2hack.graphql.data.CustomerInput;
+import com.mohan.redi2hack.graphql.data.CustomerCreateInput;
+import com.mohan.redi2hack.graphql.data.CustomerUpdateInput;
 import com.mohan.redi2hack.model.Customer;
 import com.mohan.redi2hack.model.Event;
 import com.mohan.redi2hack.service.CustomerService;
@@ -24,8 +25,16 @@ public class CompanyResolver implements GraphQLQueryResolver,
         return service.customers();
     }
 
-    public Customer createCustomer(CustomerInput customerInput) {
-        return service.createCustomer(customerInput);
+    public Customer createCustomer(CustomerCreateInput customerCreateInput) {
+        return service.createCustomer(customerCreateInput);
+    }
+
+    public Customer updateCustomer(Long customerId, CustomerUpdateInput customerUpdateInput) {
+        return service.updateCustomer(customerId, customerUpdateInput);
+    }
+
+    public Customer deleteCustomer(Long customerId) {
+        return service.deleteCustomer(customerId);
     }
 
     public Publisher<Event> subscribeEvents(boolean fromStart) {

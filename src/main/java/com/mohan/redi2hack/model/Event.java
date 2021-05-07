@@ -5,8 +5,10 @@ import lombok.*;
 import java.util.Map;
 
 enum EventType {
-    CUSTOMER,
-    PERSON
+    CustomerCreated,
+    CustomerUpdated,
+    CustomerDeleted
+
 }
 
 @AllArgsConstructor
@@ -20,10 +22,24 @@ public class Event {
     private String message;
     private EventType eventType;
 
-    public static Event of(Customer customer) {
+    public static Event createdOf(Customer customer) {
         return Event.builder()
                 .message(String.format("Customer [%s] has been created", customer.getName()))
-                .eventType(EventType.CUSTOMER)
+                .eventType(EventType.CustomerCreated)
+                .build();
+    }
+
+    public static Event updatedOf(Customer customer) {
+        return Event.builder()
+                .message(String.format("Customer [%s] has been updated", customer.getName()))
+                .eventType(EventType.CustomerUpdated)
+                .build();
+    }
+
+    public static Event deletedOf(Customer customer) {
+        return Event.builder()
+                .message(String.format("Customer [%s] has been deleted", customer.getName()))
+                .eventType(EventType.CustomerDeleted)
                 .build();
     }
 

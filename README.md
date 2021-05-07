@@ -1,4 +1,6 @@
-# REALTIME GRAPHQL USING REDIS STREAMS
+# Realtime GraphQL using Redis streams, and Redis search 
+
+Showcase how to use Realtime GraphQL using Redis streams and realtime search using Redis search  
 
 **Prerequisites:**
 
@@ -18,5 +20,7 @@
 2. Run the Spring Boot app to build the application.
 
     ```
-    ./mvnw clean spring-boot:run
+    ./mvnw clean -Dspring-boot.run.profiles=local spring-boot:run
     ```
+
+## How it works

@@ -1,6 +1,7 @@
 package com.mohan.redi2hack.service;
 
-import com.mohan.redi2hack.graphql.data.CustomerInput;
+import com.mohan.redi2hack.graphql.data.CustomerCreateInput;
+import com.mohan.redi2hack.graphql.data.CustomerUpdateInput;
 import com.mohan.redi2hack.model.Customer;
 import com.mohan.redi2hack.model.Event;
 import com.mohan.redi2hack.repository.CustomerRepository;
@@ -16,11 +17,15 @@ import org.springframework.data.redis.connection.stream.*;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.stream.StreamReceiver;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -30,9 +35,11 @@ import static com.mohan.redi2hack.model.Event.EVENT_KEY_PREFIX;
 @AllArgsConstructor
 @Service
 @Slf4j
+@Transactional
 public class CustomerService {
     public static final String CUSTOMER_SEARCH_INDEX = "redi2hack:customer-idx";
     public static final Duration EVENT_STREAM_POLL_TIMEOUT = Duration.ofSeconds(2);
+    public static final AtomicLong idGen = new AtomicLong();
 
     private final CustomerRepository customerRepository;
     private final RedisTemplate<String, Customer> redisTemplate;
@@ -44,23 +51,58 @@ public class CustomerService {
                 .collect(Collectors.toList());
     }
 
-    public Customer createCustomer(CustomerInput customerInput) {
-        long id = customerRepository.count();
-
+    public Customer createCustomer(CustomerCreateInput customerCreateInput) {
         var customer = Customer.builder()
-                .id(id + 1)
-                .name(customerInput.getName())
-                .industry(customerInput.getIndustry())
+                .id(idGen.incrementAndGet())
+                .name(customerCreateInput.getName())
+                .industry(customerCreateInput.getIndustry())
                 .build();
 
         customerRepository.save(customer);
 
-        Event event = Event.of(customer);
+        Event event = Event.createdOf(customer);
 
         StringRecord stringRecord = StreamRecords.string(event.toMap()).withStreamKey(EVENT_KEY_PREFIX);
 
         RecordId recordId = redisTemplate.opsForStream().add(stringRecord);
-        log.info("recordId = " + recordId);
+        log.info("created event recordId = " + recordId);
+        return customer;
+    }
+
+    public Customer updateCustomer(Long customerId, CustomerUpdateInput customerUpdateInput) {
+
+        Optional<Customer> customerOpt = customerRepository.findById(customerId);
+        Customer customer = customerOpt.orElseThrow(() -> new RuntimeException("Customer not found"));
+        if (Objects.nonNull(customerUpdateInput.getName())) {
+            customer.setName(customerUpdateInput.getName());
+        }
+        if (Objects.nonNull(customerUpdateInput.getIndustry())) {
+            customer.setIndustry(customerUpdateInput.getIndustry());
+        }
+
+        customerRepository.save(customer);
+
+        Event event = Event.updatedOf(customer);
+
+        StringRecord stringRecord = StreamRecords.string(event.toMap()).withStreamKey(EVENT_KEY_PREFIX);
+
+        RecordId recordId = redisTemplate.opsForStream().add(stringRecord);
+        log.info("updated event recordId = " + recordId);
+        return customer;
+    }
+
+    public Customer deleteCustomer(Long customerId) {
+        Optional<Customer> customerOpt = customerRepository.findById(customerId);
+        Customer customer = customerOpt.orElseThrow(() -> new RuntimeException("Customer not found"));
+
+        customerRepository.delete(customer);
+
+        Event event = Event.deletedOf(customer);
+
+        StringRecord stringRecord = StreamRecords.string(event.toMap()).withStreamKey(EVENT_KEY_PREFIX);
+
+        RecordId recordId = redisTemplate.opsForStream().add(stringRecord);
+        log.info("deleted event recordId = " + recordId);
         return customer;
     }
 

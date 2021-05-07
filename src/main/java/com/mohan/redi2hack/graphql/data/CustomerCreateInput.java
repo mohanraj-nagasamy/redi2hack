@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-public class CustomerInput {
+public class CustomerCreateInput {
     private String name;
     private String industry;
 }
