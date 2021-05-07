@@ -27,7 +27,10 @@ public class RedisConfig {
         RedisURI redisURI = RedisURI.create(properties.getUrl());
         properties.setHost(redisURI.getHost());
         properties.setPort(redisURI.getPort());
-        properties.setPassword(String.valueOf(redisURI.getPassword()));
+
+        if (redisURI.getPassword() != null) {
+            properties.setPassword(String.valueOf(redisURI.getPassword()));
+        }
 
         return properties;
     }
