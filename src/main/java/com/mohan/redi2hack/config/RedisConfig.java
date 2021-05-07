@@ -1,7 +1,10 @@
 package com.mohan.redi2hack.config;
 
+import io.lettuce.core.RedisURI;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
@@ -17,4 +20,16 @@ public class RedisConfig {
 
         return template;
     }
+
+    @Bean
+    @Primary
+    RedisProperties RedisProperties(RedisProperties properties) {
+        RedisURI redisURI = RedisURI.create(properties.getUrl());
+        properties.setHost(redisURI.getHost());
+        properties.setPort(redisURI.getPort());
+        properties.setPassword(String.valueOf(redisURI.getPassword()));
+
+        return properties;
+    }
+
 }
