@@ -31,13 +31,15 @@ input CustomerUpdateInput {
 
 type Query {
     customers: [Customer!]!
-    searchCustomer(q: String!): [Customer!]!
+    searchCustomers(q: String!): [Customer!]!
+    findCustomer(id: Int): Customer!
 }
 
 type Mutation {
     createCustomer(input: CustomerCreateInput!): Customer!
-    updateCustomer(customerId: Int, input: CustomerUpdateInput): Customer!
-    deleteCustomer(customerId: Int): Customer!
+    updateCustomer(id: Int, input: CustomerUpdateInput): Customer!
+    deleteCustomer(id: Int): Customer!
+
     resetRedis: String!
 }
 
