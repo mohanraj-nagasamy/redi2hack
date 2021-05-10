@@ -53,7 +53,8 @@
     }
   ],
   "app_image_urls": [
-    "https://github.com/mohanraj-nagasamy/redi2hack/blob/main/preview.png?raw=true"
+    "https://raw.githubusercontent.com/mohanraj-nagasamy/redi2hack/main/docs/images/preview-1.png",
+    "https://raw.githubusercontent.com/mohanraj-nagasamy/redi2hack/main/docs/images/preview-2.png"
   ],
   "youtube_url": "",
   "markdown": "https://raw.githubusercontent.com/mohanraj-nagasamy/redi2hack/main/README.md"
