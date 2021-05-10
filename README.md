@@ -2,6 +2,13 @@
 
 Showcases how to use Realtime GraphQL using Redis Streams and real-time search using RediSearch in Java
 
+### Previews
+
+![image](https://user-images.githubusercontent.com/2755263/117599354-e5e76780-b106-11eb-8d41-dac8dd54541d.png)
+
+
+![image](https://user-images.githubusercontent.com/2755263/117599951-298ea100-b108-11eb-9968-1d1e3a6957c3.png)
+
 ### Deployment in Heroku
 
 https://redi2hack.herokuapp.com/
