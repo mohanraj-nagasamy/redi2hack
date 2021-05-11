@@ -15,7 +15,7 @@ Showcases how to use Realtime GraphQL using Redis Streams and real-time search u
 
 ### Deployment in Heroku
 
-https://redi2hack.herokuapp.com/
+[redi2hack.herokuapp.com](https://redi2hack.herokuapp.com/)
 
 ### Start Redis and the Spring Boot Application in local dev env
 
@@ -75,7 +75,7 @@ support real-time search using **RediSearch**.
     * Mutation: to create/update/delete the customer state
     * Query: to query/search customer information
 
-1. Goto: https://redi2hack.herokuapp.com/
+1. Goto: [redi2hack.herokuapp.com](https://redi2hack.herokuapp.com/)
 
 Note: The app comes with the necessary sample code to follow. 
 
