@@ -12,6 +12,8 @@ Showcases how to use Realtime GraphQL using Redis Streams and real-time search u
 
 ![image](https://user-images.githubusercontent.com/2755263/117599354-e5e76780-b106-11eb-8d41-dac8dd54541d.png)
 
+### Demo
+[youtube video](https://www.youtube.com/watch?v=pfoZrV8Jox8)
 
 ### Deployment in Heroku
 
